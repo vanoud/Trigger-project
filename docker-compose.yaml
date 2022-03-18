@@ -3,7 +3,7 @@ version: '3.8'
 services:
 
   flask-app: 
-    images: python:3.8.9
+    image: python:3.8.9
     restart: unless-stopped
 
 

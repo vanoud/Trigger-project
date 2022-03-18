@@ -1,3 +1,0 @@
----
-- import_tasks: module_vault_login_setup.yml
-- import_tasks: module_vault_login_test.yml
