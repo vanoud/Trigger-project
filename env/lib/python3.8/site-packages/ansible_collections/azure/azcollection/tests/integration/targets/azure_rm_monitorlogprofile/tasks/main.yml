@@ -1,0 +1,133 @@
+- name: Prepare random number
+  set_fact:
+    storage_name: "storage{{ resource_group | hash('md5') | truncate(5, True, '') }}{{ 1000 | random }}"
+    profile_name: "profile{{ resource_group | hash('md5') | truncate(5, True, '') }}{{ 1000 | random }}"
+    location: eastus
+  run_once: yes
+
+- name: create Azure storage account
+  azure_rm_storageaccount:
+    name: '{{ storage_name }}'
+    resource_group: "{{ resource_group }}"
+    account_type: Standard_LRS
+
+- name: create log profile (check mode)
+  azure_rm_monitorlogprofile:
+    name: "{{ profile_name }}"
+    location: "{{ location }}"
+    locations:
+      - eastus
+      - westus
+    categories:
+      - Write
+      - Action
+    retention_policy:
+      enabled: False
+      days: 1
+    storage_account:
+      resource_group: "{{ resource_group }}"
+      name: "{{ storage_name }}"
+  check_mode: yes
+  register: output
+
+- name: assert create check mode
+  assert:
+    that:
+      - output.changed
+
+- name: create log profile
+  azure_rm_monitorlogprofile:
+    name: "{{ profile_name }}"
+    location: "{{ location }}"
+    locations:
+      - eastus
+      - westus
+    categories:
+      - Write
+      - Action
+    retention_policy:
+      enabled: False
+      days: 1
+    storage_account:
+      resource_group: "{{ resource_group }}"
+      name: "{{ storage_name }}"
+  register: output
+- name: assert create
+  assert:
+    that:
+      - output.changed
+      - output.id
+
+- name: update log profile (idempotence)
+  azure_rm_monitorlogprofile:
+    name: "{{ profile_name }}"
+    location: "{{ location }}"
+    locations:
+      - eastus
+      - westus
+    categories:
+      - Write
+      - Action
+    retention_policy:
+      enabled: False
+      days: 1
+    storage_account:
+      resource_group: "{{ resource_group }}"
+      name: "{{ storage_name }}"
+  register: output
+- name: assert update idempotence
+  assert:
+    that:
+      - not output.changed
+
+- name: update log profile
+  azure_rm_monitorlogprofile:
+    name: "{{ profile_name }}"
+    location: "{{ location }}"
+    locations:
+      - eastus
+    categories:
+      - Write
+      - Action
+    retention_policy:
+      enabled: False
+      days: 2
+    storage_account:
+      resource_group: "{{ resource_group }}"
+      name: "{{ storage_name }}"
+  register: output
+- name: assert update
+  assert:
+    that:
+      - output.changed
+
+- name: delete log profile (check mode)
+  azure_rm_monitorlogprofile:
+    name: "{{ profile_name }}"
+    state: absent
+  register: output
+  check_mode: true
+- name: assert delete
+  assert:
+    that:
+      - output.changed
+
+- name: delete log profile
+  azure_rm_monitorlogprofile:
+    name: "{{ profile_name }}"
+    state: absent
+  register: output
+- name: assert delete
+  assert:
+    that:
+      - output.changed
+
+- name: delete log profile (idempotence)
+  azure_rm_monitorlogprofile:
+    name: "{{ profile_name }}"
+    state: absent
+  register: output
+- name: assert delete
+  assert:
+    that:
+      - not output.changed

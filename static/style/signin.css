@@ -1,0 +1,121 @@
+html,
+body {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #f5f5f5;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: 50px;
+}
+
+.form-signin .checkbox {
+  font-weight: 400;
+}
+
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.background-login{
+  background-position: center;
+  background: no-repeat center/70% url('../img/flame.svg');
+  background-position: left -100% bottom 45%;
+  
+}
+
+.background-main{
+  background: url('../img/main.svg');
+  background-size: cover;
+  
+}
+
+.blackedp{
+  color: rgb(22, 22, 22) !important;
+}
+
+.bd-placeholder-img {
+  font-size: 1.125rem;
+  text-anchor: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+@media (min-width: 768px) {
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
+}
+html,
+body {
+height: 100%;
+}
+
+body {
+display: flex;
+align-items: center;
+padding-top: 40px;
+padding-bottom: 40px;
+background-color: #f5f5f5;
+}
+
+.form-signin {
+width: 100%;
+max-width: 330px;
+padding: 15px;
+margin: auto;
+}
+
+.form-signin .checkbox {
+font-weight: 400;
+}
+
+.form-signin .form-floating:focus-within {
+z-index: 2;
+}
+
+.form-signin input[type="email"] {
+margin-bottom: -1px;
+border-bottom-right-radius: 0;
+border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+margin-bottom: 10px;
+border-top-left-radius: 0;
+border-top-right-radius: 0;
+}
+.haut{
+margin-bottom: 5%;
+}
+
+.color-btnt{
+  background-color: rgb(12, 69, 190);
+  border-color: rgb(12, 69, 190);
+}
+.blacked{
+  color: rgb(25, 25, 27);
+}
+

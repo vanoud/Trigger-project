@@ -1,0 +1,43 @@
+{
+ "collection_info": {
+  "namespace": "fortinet",
+  "name": "fortios",
+  "version": "2.1.4",
+  "authors": [
+   "Frank Shen (@frankshen01)",
+   "Hongbin Lu (@fgtdev-hblu)",
+   "Link Zheng (@chillancezen)",
+   "Jie Xue (@JieX19)",
+   "Miguel Angel Munoz (@mamunozgonzalez)",
+   "Nicolas Thomas (@thomnico)"
+  ],
+  "readme": "README.md",
+  "tags": [
+   "fortios",
+   "networking",
+   "firewall",
+   "security",
+   "fortinet"
+  ],
+  "description": "A collection of Ansible Modules for FortiOS v6",
+  "license": [
+   "MIT"
+  ],
+  "license_file": null,
+  "dependencies": {
+   "ansible.netcommon": "*"
+  },
+  "repository": "https://github.com/fortinet-ansible-dev/ansible-galaxy-fortios-collection/tree/fos_v6.0.0/galaxy_2.1.4",
+  "documentation": "https://ansible-galaxy-fortios-docs.readthedocs.io/en/galaxy-2.1.4",
+  "homepage": "https://www.fortinet.com",
+  "issues": "https://github.com/fortinet-ansible-dev/ansible-galaxy-fortios-collection/issues"
+ },
+ "file_manifest_file": {
+  "name": "FILES.json",
+  "ftype": "file",
+  "chksum_type": "sha256",
+  "chksum_sha256": "3d0d314cf0ff3ebd7c88a727e3997cb3db17648f87d4c2951a493c0f5119756a",
+  "format": 1
+ },
+ "format": 1
+}
