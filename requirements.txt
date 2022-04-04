@@ -1,4 +1,3 @@
-werkzeug
 flask
 Flask-SocketIO==4.3.2
 eventlet

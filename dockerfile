@@ -6,6 +6,8 @@ COPY . .
 
 RUN  pip install --upgrade pip 
 
+RUN pip install -v https://github.com/pallets/werkzeug/archive/refs/tags/2.0.1.tar.gz
+
 RUN pip install -r requirements.txt
 
 CMD ["flask","run","--host=0.0.0.0"]

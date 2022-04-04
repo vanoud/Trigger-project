@@ -25,15 +25,36 @@ def home(): #methode du decorateur dans laquel on verifie si un user est log on 
     return render_template("debats.html", rooms=rooms)
 
 
-@app.route('/debats/')
-def choice():
+@app.route('/politique/')
+def politique():
     rooms = []
     subject = []
     if current_user.is_authenticated():
         subject = get_subject(subject)
         rooms = get_rooms_for_user(current_user.username)
         # subject = test_ok(current_user.username)
-    return render_template("index.html", rooms=rooms,subject=subject)
+    return render_template("politique.html", rooms=rooms,subject=subject)
+
+@app.route('/ecologie/')
+def ecologie():
+    rooms = []
+    subject = []
+    if current_user.is_authenticated():
+        subject = get_subject(subject)
+        rooms = get_rooms_for_user(current_user.username)
+        # subject = test_ok(current_user.username)
+    return render_template("ecologie.html", rooms=rooms,subject=subject)
+
+@app.route('/technologie/')
+def technologie():
+    rooms = []
+    subject = []
+    if current_user.is_authenticated():
+        subject = get_subject(subject)
+        rooms = get_rooms_for_user(current_user.username)
+        # subject = test_ok(current_user.username)
+    return render_template("technologie.html", rooms=rooms,subject=subject)
+
 
 #route sur laquel on verifie si le user est auth qui redirige vers la page debats en appelant la methode home plus haut
 @app.route('/login', methods=['GET', 'POST'])
@@ -94,6 +115,7 @@ def create_room():
             
             if current_user.username in usernames: 
                 usernames.remove(current_user.username)
+            subject = request.form.get('subject')  
             add_room_members(room_id, room_name, usernames, current_user.username,subject)
 
             return redirect(url_for('view_room', room_id=room_id)) 

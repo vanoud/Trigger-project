@@ -1,5 +1,4 @@
 from datetime import datetime
-import re
 
 from bson import ObjectId #module pour le format de base mongodb
 from pymongo import MongoClient, DESCENDING #import du client de connexion mongo pymongo pour gérer les requetes
@@ -32,7 +31,7 @@ def save_room(room_name, created_by,subject):
     
     room_id = rooms_collection.insert_one(
         {'name': room_name, 'created_by': created_by, 'created_at': datetime.now(),'subject': subject }).inserted_id
-    add_room_member(room_id, room_name, created_by, created_by, is_room_admin=True)
+    add_room_member(room_id, room_name, created_by, created_by,subject ,is_room_admin=True)
     return room_id
 
 
@@ -47,10 +46,10 @@ def get_room(room_id):
 def test_ok(subject):
  return rooms_collection.find_one({'subject': subject})
 
-def add_room_member(room_id, room_name, username, added_by, is_room_admin=False):
+def add_room_member(room_id, room_name, username, added_by,subject ,is_room_admin=False):
     room_members_collection.insert_one(
         {'_id': {'room_id': ObjectId(room_id), 'username': username}, 'room_name': room_name, 'added_by': added_by,
-         'added_at': datetime.now(), 'is_room_admin': is_room_admin})
+         'added_at': datetime.now(),'subject':subject, 'is_room_admin': is_room_admin})
         # ici insert one pour clef valeur unique 
 
 def add_room_members(room_id, room_name, usernames, added_by,subject):
