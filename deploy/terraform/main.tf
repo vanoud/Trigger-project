@@ -139,6 +139,7 @@ resource "azurerm_linux_virtual_machine" "vm1_trigger" {
     admin_ssh_key {
         username   = var.username_trigger
         public_key = file(azurerm_ssh_public_key.sshpubkey_trigger.public_key)
+        #public_key = azurerm_ssh_public_key.sshpubkey_trigger.public_key
     }
 
     os_disk {
