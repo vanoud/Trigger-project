@@ -15,16 +15,15 @@
 	2. Noter le champ id qui est donné à la validation de la connexion.
 	3. Définir l'abonnement actif  en utilisant le champ "id" communiqué :
     ```az account set --subscription "<id>"```
-4. Créer un fichier terraform.tfvars.
-5. Compléter ce fichier en se basant sur les variables définies dans le fichier variables.tf joint.
-6. Dans l'invite de commande :
-	1. Initialiser le projet :
+4. Créer et compléter un fichier "terraform.tfvars" en se basant sur le modèle "terraform.tfvars.default" fourni. Le fichier "variables.tf" ne doit pas être modifié.
+5. Dans l'invite de commande :
+	4. Initialiser le projet :
 	```terraform init```
 	2. Prévisualiser et vérifier les changements qui seront effectués :
 	```terraform plan```
 	3. Lancer le déploiement :
 	```terraform apply```
-	4. Répondre à la question posée avec "yes"
+	4. Répondre à la question posée par "yes"
 
 ## Supprimer le déploiement
 Dans le répertoire de travail, saisir en invite de commande :
