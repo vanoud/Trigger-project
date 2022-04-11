@@ -17,7 +17,7 @@
     ```az account set --subscription "<id>"```
 4. Créer et compléter un fichier "terraform.tfvars" en se basant sur le modèle "terraform.tfvars.default" fourni. Le fichier "variables.tf" ne doit pas être modifié.
 5. Dans l'invite de commande :
-	4. Initialiser le projet :
+	1. Initialiser le projet :
 	```terraform init```
 	2. Prévisualiser et vérifier les changements qui seront effectués :
 	```terraform plan```
