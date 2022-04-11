@@ -138,8 +138,7 @@ resource "azurerm_linux_virtual_machine" "vm1_trigger" {
 
     admin_ssh_key {
         username   = var.username_trigger
-        public_key = file(azurerm_ssh_public_key.sshpubkey_trigger.public_key)
-        #public_key = azurerm_ssh_public_key.sshpubkey_trigger.public_key
+        public_key = azurerm_ssh_public_key.sshpubkey_trigger.public_key
     }
 
     os_disk {
@@ -159,7 +158,7 @@ resource "azurerm_ssh_public_key" "sshpubkey_trigger" {
     name = "trigger_sshpubkey"
     resource_group_name = azurerm_resource_group.infra_trigger.name
     location            = azurerm_resource_group.infra_trigger.location
-    public_key          = var.sshpubkey_trigger
+    public_key          = file(var.sshpubkey_trigger)
 }
 
 resource "null_resource" "bringup_trigger" {
