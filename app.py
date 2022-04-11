@@ -1,5 +1,5 @@
 from datetime import datetime #import module date time pour daté les messages 
-
+import unittest
 # from bson.json_util import dumps
 from flask import Flask, render_template, request, redirect, url_for #import flask gestionaire de vue et de requete et de redirection
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user # module d'auth 
@@ -207,3 +207,4 @@ def load_user(username):
 
 if __name__ == '__main__':
     socketio.run(app, debug=True,host="0.0.0.0",port=80)
+    unittest.main()
