@@ -3,3 +3,4 @@ Flask-SocketIO==4.3.2
 eventlet
 pymongo
 flask-login
+Werkzeug==2.0.1
