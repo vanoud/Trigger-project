@@ -20,9 +20,11 @@
 6. Dans l'invite de commande :
 	1. Initialiser le projet :
 	```terraform init```
-	2. Lancer le déploiement :
+	2. Prévisualiser et vérifier les changements qui seront effectués :
+	```terraform plan```
+	3. Lancer le déploiement :
 	```terraform apply```
-	3. Répondre à la question posée avec "yes"
+	4. Répondre à la question posée avec "yes"
 
 ## Supprimer le déploiement
 Dans le répertoire de travail, saisir en invite de commande :
