@@ -171,6 +171,7 @@ resource "null_resource" "bringup_trigger" {
           port = "22"
           timeout = "1m"
           private_key = var.sshprivatekey_trigger
+          #private_key = file(var.sshprivatekey_trigger)
         }
         inline = [
             "- 1/5. Màj et installation Git.",
