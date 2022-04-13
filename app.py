@@ -122,7 +122,7 @@ def create_room():
         else:
             message = "Echec de creation de room"
     
-    elif request.method == 'POST' and request.form.get('public') == 'on':
+    elif request.method == 'POST' and request.form.get('flexRadioDefault') == 'public':
         room_name = request.form.get('room_name')
         # public_users =  all_users()
         usernames2 = [username2.strip() for username2 in all_users().split(',')]
@@ -191,7 +191,9 @@ def get_older_messages(room_id):
 @app.route('/test/')
 def test():
     test = all_users()
-    return test
+
+    
+    return str(test)
 
 
 
