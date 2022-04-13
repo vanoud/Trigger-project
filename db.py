@@ -1,4 +1,5 @@
 from datetime import datetime
+import re
 
 from bson import ObjectId #module pour le format de base mongodb
 from pymongo import MongoClient, DESCENDING #import du client de connexion mongo pymongo pour gérer les requetes
@@ -32,6 +33,8 @@ def save_room(room_name, created_by,subject):
     room_id = rooms_collection.insert_one(
         {'name': room_name, 'created_by': created_by, 'created_at': datetime.now(),'subject': subject }).inserted_id
     add_room_member(room_id, room_name, created_by, created_by,subject ,is_room_admin=True)
+    
+
     return room_id
 
 
@@ -81,9 +84,17 @@ def is_room_admin(room_id, username):
     return room_members_collection.count_documents(
         {'_id': {'room_id': ObjectId(room_id), 'username': username}, 'is_room_admin': True})
 
-
 def save_message(room_id, text, sender):
     messages_collection.insert_one({'room_id': room_id, 'text': text, 'sender': sender, 'created_at': datetime.now()})
+
+def all_users():
+    
+    collect = users_collection.find()
+    p = []
+    for i in collect:
+        
+        p.append(i['_id'])
+    return str(p)
 
 
 MESSAGE_FETCH_LIMIT = 3

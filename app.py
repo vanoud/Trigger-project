@@ -7,7 +7,7 @@ from flask_socketio import SocketIO, join_room, leave_room #gestionnaire de sock
 from pymongo.errors import DuplicateKeyError #gestionaire d'erreur de requetes 
 # import du modele de la db 
 from db import get_user, save_user, save_room, add_room_members, get_rooms_for_user, get_room, is_room_member, \
-    get_room_members, is_room_admin, update_room, remove_room_members, save_message, get_messages ,get_subject
+    get_room_members, is_room_admin, update_room, remove_room_members, save_message, get_messages ,get_subject,all_users
 
 app = Flask(__name__)
 app.secret_key = "sfdjkafnk" #clef pour la session user voir session et cookies
@@ -121,6 +121,18 @@ def create_room():
             return redirect(url_for('view_room', room_id=room_id)) 
         else:
             message = "Echec de creation de room"
+    
+    elif request.method == 'POST' and request.form.get('public') == 'on':
+        room_name = request.form.get('room_name')
+        # public_users =  all_users()
+        usernames2 = [username2.strip() for username2 in all_users().split(',')]
+        subject = request.form.get('subject')  
+        if len(room_name): # check conditionnel si true 
+            room_id = save_room(room_name, current_user.username,subject)  # on stock dans une variable la methode de requetes de base 
+            add_room_members(room_id, room_name, usernames2, current_user.username,subject)
+        else:
+            message = "Echec de creation de room"
+
     return render_template('create_room.html', message=message)
 
 
@@ -160,6 +172,7 @@ def view_room(room_id):
         messages = get_messages(room_id)
         return render_template('view_room.html', username=current_user.username, room=room, room_members=room_members,
                                messages=messages)
+                               
     else:
         return "Channel introuvable !", 404
 
@@ -174,6 +187,13 @@ def get_older_messages(room_id):
         return dumps(messages)
     else:
         return "Channel introuvable !", 404
+
+@app.route('/test/')
+def test():
+    test = all_users()
+    return test
+
+
 
 
 @socketio.on('send_message')
