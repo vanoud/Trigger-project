@@ -130,7 +130,7 @@ resource "azurerm_linux_virtual_machine" "vm1_trigger" {
     name                = "trigger-vm1"
     resource_group_name = azurerm_resource_group.infra_trigger.name
     location            = azurerm_resource_group.infra_trigger.location
-    size                = "Standard_DS1_v2"
+    size                = var.vm_size
     admin_username      = var.username_trigger
     network_interface_ids = [
         azurerm_network_interface.nic1_trigger.id,
@@ -143,7 +143,7 @@ resource "azurerm_linux_virtual_machine" "vm1_trigger" {
 
     os_disk {
         caching              = "ReadWrite"
-        storage_account_type = "StandardSSD_LRS"
+        storage_account_type = var.vm_disk_type
     }
 
     source_image_reference {

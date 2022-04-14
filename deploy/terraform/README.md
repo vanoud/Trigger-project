@@ -20,6 +20,10 @@
 	az account set --subscription "<id>"
 	```
 4. Créer et compléter un fichier "terraform.tfvars" en se basant sur le modèle "terraform.tfvars.default" fourni. Le fichier "variables.tf" ne doit pas être modifié.
+	* Il est possible d'explorer les disponibilités des ressources VM et Disque par localisation géographique avec la commande Azure CLI suivante :
+	```
+	az vm list-skus --location <nom-localisation> --zone --all --output table
+	```
 5. Dans l'invite de commande :
 	1. Initialiser le projet :
 	```
