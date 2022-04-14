@@ -58,7 +58,7 @@ resource "azurerm_network_security_rule" "secrulessh_trigger" {
     priority = 300
     direction = "Inbound"
     resource_group_name = azurerm_resource_group.infra_trigger.name
-    network_security_group_name = resource.azurerm_network_security_group.netsecgrp_trigger.name
+    network_security_group_name = azurerm_network_security_group.netsecgrp_trigger.name
 }
 
 # Création d'une règle de sécurité pour l'application (flask)
@@ -73,7 +73,7 @@ resource "azurerm_network_security_rule" "secruleflask_trigger" {
     priority = 200
     direction = "Inbound"
     resource_group_name = azurerm_resource_group.infra_trigger.name
-    network_security_group_name = resource.azurerm_network_security_group.netsecgrp_trigger.name
+    network_security_group_name = azurerm_network_security_group.netsecgrp_trigger.name
 }
 
 # Création d'un réseau virtuel trigger_vnet1
@@ -102,8 +102,8 @@ resource "azurerm_public_ip" "public_ip_trigger" {
 
 # Liaison du groupe de sécurité netsecgrp_trigger avec le sous-réseau subnet1_trigger
 resource "azurerm_subnet_network_security_group_association" "netsecgroupasso_trigger" {
-    network_security_group_id = resource.azurerm_subnet.subnet1_trigger.id
-    subnet_id = resource.azurerm_network_security_group.netsecgrp_trigger.id
+    network_security_group_id = azurerm_subnet.subnet1_trigger.id
+    subnet_id = azurerm_network_security_group.netsecgrp_trigger.id
 }
 
 # /Réseau
