@@ -14,8 +14,8 @@
 	```
 	az login
 	```
-	2. Noter le champ id qui est donné à la validation de la connexion.
-	3. Définir l'abonnement actif  en utilisant le champ "id" communiqué :
+	2. Noter le champ "id" qui est donné à la validation de la connexion.
+	3. Définir l'abonnement actif en utilisant le champ "id" communiqué :
     ```
 	az account set --subscription "<id>"
 	```
