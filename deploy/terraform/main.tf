@@ -146,10 +146,11 @@ resource "azurerm_linux_virtual_machine" "vm1_trigger" {
         storage_account_type = var.vm_disk_type
     }
 
+    # You can list available LTS images from Canonical with the command 'az vm image list --all --publisher Canonical --sku lts'
     source_image_reference {
         publisher = "Canonical"
-        offer     = "UbuntuServer"
-        sku       = "20.04-LTS"
+        offer     = "0001-com-ubuntu-server-focal"
+        sku       = "20_04-lts-gen2"
         version   = "latest"
     }
 }
