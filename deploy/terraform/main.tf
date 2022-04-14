@@ -52,7 +52,7 @@ resource "azurerm_network_security_rule" "secrulessh_trigger" {
     protocol = "Tcp"
     source_port_range = "*"
     destination_port_range = "22"
-    # source_address_prefixes = "*"
+    source_address_prefix = "*"
     destination_address_prefixes = azurerm_virtual_network.vnet1_trigger.address_space
     access = "Allow"
     priority = 300
@@ -67,7 +67,7 @@ resource "azurerm_network_security_rule" "secruleflask_trigger" {
     protocol = "Tcp"
     source_port_range = "*"
     destination_port_range = "5000"
-    # source_address_prefixes = "*"
+    source_address_prefix = "*"
     destination_address_prefixes = azurerm_virtual_network.vnet1_trigger.address_space
     access = "Allow"
     priority = 200
@@ -127,7 +127,7 @@ resource "azurerm_network_interface" "nic1_trigger" {
 }
 
 resource "azurerm_linux_virtual_machine" "vm1_trigger" {
-    name                = "trigger_vm1"
+    name                = "trigger-vm1"
     resource_group_name = azurerm_resource_group.infra_trigger.name
     location            = azurerm_resource_group.infra_trigger.location
     size                = "Standard_DS1_v2"
