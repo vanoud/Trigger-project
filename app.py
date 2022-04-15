@@ -1,5 +1,5 @@
 from datetime import datetime #import module date time pour daté les messages 
-
+import unittest
 # from bson.json_util import dumps
 from flask import Flask, render_template, request, redirect, url_for #import flask gestionaire de vue et de requete et de redirection
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user # module d'auth 
@@ -7,7 +7,7 @@ from flask_socketio import SocketIO, join_room, leave_room #gestionnaire de sock
 from pymongo.errors import DuplicateKeyError #gestionaire d'erreur de requetes 
 # import du modele de la db 
 from db import get_user, save_user, save_room, add_room_members, get_rooms_for_user, get_room, is_room_member, \
-    get_room_members, is_room_admin, update_room, remove_room_members, save_message, get_messages ,get_subject
+    get_room_members, is_room_admin, update_room, remove_room_members, save_message, get_messages ,get_subject,all_users
 
 app = Flask(__name__)
 app.secret_key = "sfdjkafnk" #clef pour la session user voir session et cookies
@@ -25,15 +25,36 @@ def home(): #methode du decorateur dans laquel on verifie si un user est log on 
     return render_template("debats.html", rooms=rooms)
 
 
-@app.route('/debats/')
-def choice():
+@app.route('/politique/')
+def politique():
     rooms = []
     subject = []
     if current_user.is_authenticated():
         subject = get_subject(subject)
         rooms = get_rooms_for_user(current_user.username)
         # subject = test_ok(current_user.username)
-    return render_template("index.html", rooms=rooms,subject=subject)
+    return render_template("politique.html", rooms=rooms,subject=subject)
+
+@app.route('/ecologie/')
+def ecologie():
+    rooms = []
+    subject = []
+    if current_user.is_authenticated():
+        subject = get_subject(subject)
+        rooms = get_rooms_for_user(current_user.username)
+        # subject = test_ok(current_user.username)
+    return render_template("ecologie.html", rooms=rooms,subject=subject)
+
+@app.route('/technologie/')
+def technologie():
+    rooms = []
+    subject = []
+    if current_user.is_authenticated():
+        subject = get_subject(subject)
+        rooms = get_rooms_for_user(current_user.username)
+        # subject = test_ok(current_user.username)
+    return render_template("technologie.html", rooms=rooms,subject=subject)
+
 
 #route sur laquel on verifie si le user est auth qui redirige vers la page debats en appelant la methode home plus haut
 @app.route('/login', methods=['GET', 'POST'])
@@ -85,7 +106,7 @@ def logout():
 @login_required #methode qui verifie si auth 
 def create_room():
     message = ''
-    if request.method == 'POST':
+    if request.method == 'POST' and request.form.get('flexRadioDefault') == 'private':
         room_name = request.form.get('room_name')
         usernames = [username.strip() for username in request.form.get('members').split(',')] #ici on recupére les nom d'user dans du formulaire de creation de rooms on strip pour les espaces 
         subject = request.form.get('subject')                                                                                 # et on parse avec une " , " pour recupérer un tableau des users  
@@ -94,11 +115,28 @@ def create_room():
             
             if current_user.username in usernames: 
                 usernames.remove(current_user.username)
+            subject = request.form.get('subject')  
             add_room_members(room_id, room_name, usernames, current_user.username,subject)
 
             return redirect(url_for('view_room', room_id=room_id)) 
         else:
             message = "Echec de creation de room"
+    
+    elif request.method == 'POST' and request.form.get('flexRadioDefault') == 'public':
+        room_name = request.form.get('room_name')
+        all_user =  all_users()
+        usernames2 = [all_user.strip() for all_user in all_user.split(',')]
+        subject = request.form.get('subject')  
+        if len(room_name): # check conditionnel si true 
+            room_id = save_room(room_name, current_user.username,subject)  # on stock dans une variable la methode de requetes de base 
+            if current_user.username in usernames2: 
+                usernames2.remove(current_user.username)
+            subject = request.form.get('subject') 
+            add_room_members(room_id, room_name, usernames2, current_user.username,subject)
+            return redirect(url_for('view_room', room_id=room_id)) 
+        else:
+            message = "Echec de creation de room"
+
     return render_template('create_room.html', message=message)
 
 
@@ -138,6 +176,7 @@ def view_room(room_id):
         messages = get_messages(room_id)
         return render_template('view_room.html', username=current_user.username, room=room, room_members=room_members,
                                messages=messages)
+                               
     else:
         return "Channel introuvable !", 404
 
@@ -152,6 +191,13 @@ def get_older_messages(room_id):
         return dumps(messages)
     else:
         return "Channel introuvable !", 404
+
+@app.route('/test/')
+def test():
+    
+    test = all_users()
+
+    return test
 
 
 @socketio.on('send_message')
@@ -185,3 +231,4 @@ def load_user(username):
 
 if __name__ == '__main__':
     socketio.run(app, debug=True,host="0.0.0.0",port=80)
+    unittest.main()
