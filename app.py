@@ -106,7 +106,7 @@ def logout():
 @login_required #methode qui verifie si auth 
 def create_room():
     message = ''
-    if request.method == 'POST':
+    if request.method == 'POST' and request.form.get('flexRadioDefault') == 'private':
         room_name = request.form.get('room_name')
         usernames = [username.strip() for username in request.form.get('members').split(',')] #ici on recupére les nom d'user dans du formulaire de creation de rooms on strip pour les espaces 
         subject = request.form.get('subject')                                                                                 # et on parse avec une " , " pour recupérer un tableau des users  
@@ -124,12 +124,16 @@ def create_room():
     
     elif request.method == 'POST' and request.form.get('flexRadioDefault') == 'public':
         room_name = request.form.get('room_name')
-        # public_users =  all_users()
-        usernames2 = [username2.strip() for username2 in all_users().split(',')]
+        all_user =  all_users()
+        usernames2 = [all_user.strip() for all_user in all_user.split(',')]
         subject = request.form.get('subject')  
         if len(room_name): # check conditionnel si true 
             room_id = save_room(room_name, current_user.username,subject)  # on stock dans une variable la methode de requetes de base 
+            if current_user.username in usernames2: 
+                usernames2.remove(current_user.username)
+            subject = request.form.get('subject') 
             add_room_members(room_id, room_name, usernames2, current_user.username,subject)
+            return redirect(url_for('view_room', room_id=room_id)) 
         else:
             message = "Echec de creation de room"
 
@@ -190,12 +194,10 @@ def get_older_messages(room_id):
 
 @app.route('/test/')
 def test():
+    
     test = all_users()
 
-    
-    return str(test)
-
-
+    return test
 
 
 @socketio.on('send_message')

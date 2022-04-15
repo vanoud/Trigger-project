@@ -92,9 +92,12 @@ def all_users():
     collect = users_collection.find()
     p = []
     for i in collect:
-        
         p.append(i['_id'])
-    return str(p)
+
+    ok = str(p).strip('[]')
+    ok2  = str(ok).strip('\'')
+    ok3  = str(ok2).replace('\'',' ')
+    return ok3
 
 
 MESSAGE_FETCH_LIMIT = 3
