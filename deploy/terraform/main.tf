@@ -102,8 +102,8 @@ resource "azurerm_public_ip" "public_ip_trigger" {
 
 # Liaison du groupe de sécurité netsecgrp_trigger avec le sous-réseau subnet1_trigger
 resource "azurerm_subnet_network_security_group_association" "netsecgroupasso_trigger" {
-    network_security_group_id = azurerm_subnet.subnet1_trigger.id
-    subnet_id = azurerm_network_security_group.netsecgrp_trigger.id
+    network_security_group_id = azurerm_network_security_group.netsecgrp_trigger.id
+    subnet_id = azurerm_subnet.subnet1_trigger.id
 }
 
 # /Réseau
