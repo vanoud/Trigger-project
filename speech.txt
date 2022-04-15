@@ -1,0 +1,12 @@
+trigger
+
+
+qu’est ce que trigger ?  et bien nous avons tous des idées des opinions des convictions !!! et ils nous arrivent d’avoir des désaccord et beaucoup de personnes aimerait exposé 
+leurs point de vue sur une idée ou une opinion a des personnes qui ’n’ont pas les mêmes idées ! un exemple flagrant les repas de familles , ça arrive très souvent lors des repas de famille que la tante ou l’oncle se dispute 
+avec le beau papa et qu’il y est un  conflit d’opinion on expose son point de vue ! l’autre n’est pas d’accord et ça fini souvent en Engeulade haha quel joie ! LE DEBATS !!! notre application TRIGGER propose de débattre ! c’est une plateforme de débats sur lequel vous pouvez vous connecter et confronter vos opinions avec d’autres personnes qui ne sont pas d’accord avec vous ! et tout ça de manière anonyme si vous le souhaitez !!!que ça soit politique , Ecologique , sur le travail ou encore Geopolitique le concept de la plateforme et d’accueillir des utilisateurs qui souhaite débattre avec d’autres personnes sur des sujets ou ils ont des convictions ou non,que vous ayez des choses à dire ou alors que soyez un spectateur qui se délecte des polémiques ou encore simplement une personne avec une curiosité sur les idées actuelles , trigger est la plateforme qui saura vous divertir .
+
+
+
+les Salons Accueillant les utilisateurs sont en quelques sortent des arènes ,ou nos gladiateur AKA utilisateurs pourront débattre les spectateurs pourront suivre le débats voter pour leur gladiateur préféré 
+aujourd’hui nous avons un concept qui demande encore à être développé c’est un projet qui est vraiment tendance surtout ces derniers mois avec l’arrivé des élections présidentielles et nous sommes encore en train de developper  aujourd’hui le projet ! aujourdhui l’application n’integre pas encore  toutes les fonctionnalités car il est en BETA mais nous somme heureux de vous présenter le concept en lui même ! 
+
