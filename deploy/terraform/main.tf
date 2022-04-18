@@ -195,15 +195,15 @@ resource "null_resource" "bringup_trigger" {
           private_key = file(var.sshprivatekey_trigger)
         }
         inline = [
-            "echo '- 1/5. Màj et installation Git.'",
+            "echo '- 1/5. Màj, installation Git et Python3 Venv.'",
             "cd ~",
-            "sudo apt update && sudo apt upgrade -y && sudo apt install git -y",
+            "sudo apt update && sudo apt upgrade -y && sudo apt install git python3.8-venv -y",
             "echo '- 2/5. Cloner le dépôt.'",
             "git clone https://github.com/vanoud/Trigger-project.git",
             "echo '- 3/5. Créer et activer l environnement virtuel.'",
             "cd Trigger-project/",
-            "py -3 -m venv venv",
-            "venv/Scripts/activate",
+            "python3 -m venv venv",
+            "venv/bin/activate",
             "echo '- 4/5. Installer flask et dépendances.'",
             "pip install -r requirements.txt",
             "echo '- 5/5. Lancer le projet sous flask.'",
