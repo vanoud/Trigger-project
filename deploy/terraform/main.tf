@@ -167,8 +167,8 @@ resource "null_resource" "bringup_trigger" {
     provisioner "remote-exec" {
         connection {
           type = "ssh"
-          user = "var.username_trigger"
-          host = "data.azurerm_network_interface.nic1_trigger.private_ip_address"
+          user = var.username_trigger
+          host = data.azurerm_network_interface.nic1_trigger.private_ip_address
           port = "22"
           timeout = "1m"
           private_key = file(var.sshprivatekey_trigger)
