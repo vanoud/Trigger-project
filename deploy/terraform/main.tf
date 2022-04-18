@@ -120,7 +120,7 @@ resource "azurerm_network_interface" "nic1_trigger" {
     ip_configuration {
       name = "nic1"
       private_ip_address_allocation = "Dynamic"
-      #public_ip_address_id = azurerm_public_ip.public_ip_trigger.id
+      public_ip_address_id = azurerm_public_ip.public_ip_trigger.id
       #gateway_load_balancer_frontend_ip_configuration_id = 
       subnet_id = azurerm_subnet.subnet1_trigger.id
     }
