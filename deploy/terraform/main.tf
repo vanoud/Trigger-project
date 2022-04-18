@@ -170,7 +170,7 @@ resource "null_resource" "bringup_trigger" {
           user = var.username_trigger
           host = azurerm_network_interface.nic1_trigger.private_ip_address
           port = "22"
-          timeout = "1m"
+          timeout = "3m"
           private_key = file(var.sshprivatekey_trigger)
         }
         inline = [
