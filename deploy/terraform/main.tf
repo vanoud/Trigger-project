@@ -7,6 +7,10 @@ terraform {
             source = "hashicorp/azurerm"
             version = "~>2.99.0"
         }
+        # time = {
+        #     source = "hashicorp/time"
+        #     version = "~>0.7.2"
+        # }
         null = {
             source = "hashicorp/null"
             version = "~>3.1.1"
@@ -97,7 +101,7 @@ resource "azurerm_public_ip" "public_ip_trigger" {
     name = "trigger_public_ip"
     resource_group_name = azurerm_resource_group.infra_trigger.name
     location = azurerm_resource_group.infra_trigger.location
-    allocation_method = "Dynamic"
+    allocation_method = "Static"
 }
 
 # Liaison du groupe de sécurité netsecgrp_trigger avec le sous-réseau subnet1_trigger
@@ -126,6 +130,7 @@ resource "azurerm_network_interface" "nic1_trigger" {
     }
 }
 
+# Création de la VM
 resource "azurerm_linux_virtual_machine" "vm1_trigger" {
     name                = "trigger-vm1"
     resource_group_name = azurerm_resource_group.infra_trigger.name
@@ -146,7 +151,7 @@ resource "azurerm_linux_virtual_machine" "vm1_trigger" {
         storage_account_type = var.vm_disk_type
     }
 
-    # You can list available LTS images from Canonical with the command 'az vm image list --all --publisher Canonical --sku lts'
+    # Il est possible de lister les images LTS fournies par Canonical avec la commande 'az vm image list --all --publisher Canonical --sku lts'
     source_image_reference {
         publisher = "Canonical"
         offer     = "0001-com-ubuntu-server-focal"
@@ -155,6 +160,7 @@ resource "azurerm_linux_virtual_machine" "vm1_trigger" {
     }
 }
 
+# Transmission de la clef publique
 resource "azurerm_ssh_public_key" "sshpubkey_trigger" {
     name = "trigger_sshpubkey"
     resource_group_name = azurerm_resource_group.infra_trigger.name
@@ -162,15 +168,30 @@ resource "azurerm_ssh_public_key" "sshpubkey_trigger" {
     public_key          = file(var.sshpubkey_trigger)
 }
 
+# Attente que l'adresse IP publique soit bien disponible.
+# resource "time_sleep" "wait_public_ip_trigger" {
+#     depends_on = [
+#       azurerm_public_ip.public_ip_trigger
+#     ]
+    
+#     create_duration = "120s"
+# }
+
+# Déploiement de l'application sur la VM.
 resource "null_resource" "bringup_trigger" {
-    depends_on = [azurerm_linux_virtual_machine.vm1_trigger,azurerm_ssh_public_key.sshpubkey_trigger]
+    depends_on = [
+        # time_sleep.wait_public_ip_trigger
+        azurerm_linux_virtual_machine.vm1_trigger,
+        azurerm_ssh_public_key.sshpubkey_trigger,
+        azurerm_public_ip.public_ip_trigger
+        ]
     provisioner "remote-exec" {
         connection {
           type = "ssh"
           user = var.username_trigger
-          host = azurerm_network_interface.nic1_trigger.private_ip_address
+          host = azurerm_public_ip.public_ip_trigger.ip_address
           port = "22"
-          timeout = "3m"
+          timeout = "1m"
           private_key = file(var.sshprivatekey_trigger)
         }
         inline = [
@@ -179,7 +200,7 @@ resource "null_resource" "bringup_trigger" {
             "sudo apt update && sudo apt upgrade -y && sudo apt install git -y",
             "echo '- 2/5. Cloner le dépôt.'",
             "git clone https://github.com/vanoud/Trigger-project.git",
-            "echo '- 3/5. Créer et activer l'environnement virtuel.'",
+            "echo '- 3/5. Créer et activer l environnement virtuel.'",
             "cd Trigger-project/",
             "py -3 -m venv venv",
             "venv/Scripts/activate",
@@ -190,3 +211,6 @@ resource "null_resource" "bringup_trigger" {
         ]
     }
 }
+
+# /Machine virtuelle
+# END
