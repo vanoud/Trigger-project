@@ -205,7 +205,7 @@ resource "null_resource" "bringup_trigger" {
             "echo '- 4/5. Installer flask et dépendances.'",
             "pip install -r requirements.txt",
             "echo '- 5/5. Lancer le projet sous flask.'",
-            "nohup ~/.local/bin/flask run"
+            "nohup ~/.local/bin/flask run &"
         ]
     }
 }
