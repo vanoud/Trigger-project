@@ -43,6 +43,30 @@ resource "azurerm_resource_group" "infra_trigger" {
 
 # Réseau
 
+# Création d'un réseau virtuel trigger_vnet1
+resource "azurerm_virtual_network" "vnet1_trigger" {
+    name = "trigger_vnet1"
+    address_space = ["10.0.0.0/16"]
+    location = azurerm_resource_group.infra_trigger.location
+    resource_group_name =azurerm_resource_group.infra_trigger.name
+}
+
+# Création d'un sous-réseau trigger_subnet1 contenu dans le réseau virtuel trigger_vnet1
+resource "azurerm_subnet" "subnet1_trigger" {
+    name = "trigger_subnet1"
+    resource_group_name = azurerm_resource_group.infra_trigger.name
+    virtual_network_name = azurerm_virtual_network.vnet1_trigger.name
+    address_prefixes = ["10.0.1.0/24"]
+}
+
+# Création d'une IP publique
+resource "azurerm_public_ip" "public_ip_trigger" {
+    name = "trigger_public_ip"
+    resource_group_name = azurerm_resource_group.infra_trigger.name
+    location = azurerm_resource_group.infra_trigger.location
+    allocation_method = "Static"
+}
+
 # Création du groupe de sécurité réseau
 resource "azurerm_network_security_group" "netsecgrp_trigger" {
     name = "trigger_netsecgrp"
@@ -78,30 +102,6 @@ resource "azurerm_network_security_rule" "secruleflask_trigger" {
     direction = "Inbound"
     resource_group_name = azurerm_resource_group.infra_trigger.name
     network_security_group_name = azurerm_network_security_group.netsecgrp_trigger.name
-}
-
-# Création d'un réseau virtuel trigger_vnet1
-resource "azurerm_virtual_network" "vnet1_trigger" {
-    name = "trigger_vnet1"
-    address_space = ["10.0.0.0/16"]
-    location = azurerm_resource_group.infra_trigger.location
-    resource_group_name =azurerm_resource_group.infra_trigger.name
-}
-
-# Création d'un sous-réseau trigger_subnet1 contenu dans le réseau virtuel trigger_vnet1
-resource "azurerm_subnet" "subnet1_trigger" {
-    name = "trigger_subnet1"
-    resource_group_name = azurerm_resource_group.infra_trigger.name
-    virtual_network_name = azurerm_virtual_network.vnet1_trigger.name
-    address_prefixes = ["10.0.1.0/24"]
-}
-
-# Création d'une IP publique
-resource "azurerm_public_ip" "public_ip_trigger" {
-    name = "trigger_public_ip"
-    resource_group_name = azurerm_resource_group.infra_trigger.name
-    location = azurerm_resource_group.infra_trigger.location
-    allocation_method = "Static"
 }
 
 # Liaison du groupe de sécurité netsecgrp_trigger avec le sous-réseau subnet1_trigger
