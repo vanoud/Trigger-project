@@ -59,7 +59,7 @@ resource "azurerm_network_security_rule" "secrulessh_trigger" {
     source_address_prefix = "*"
     destination_address_prefixes = azurerm_virtual_network.vnet1_trigger.address_space
     access = "Allow"
-    priority = 300
+    priority = 1000
     direction = "Inbound"
     resource_group_name = azurerm_resource_group.infra_trigger.name
     network_security_group_name = azurerm_network_security_group.netsecgrp_trigger.name
@@ -74,7 +74,7 @@ resource "azurerm_network_security_rule" "secruleflask_trigger" {
     source_address_prefix = "*"
     destination_address_prefixes = azurerm_virtual_network.vnet1_trigger.address_space
     access = "Allow"
-    priority = 200
+    priority = 900
     direction = "Inbound"
     resource_group_name = azurerm_resource_group.infra_trigger.name
     network_security_group_name = azurerm_network_security_group.netsecgrp_trigger.name
