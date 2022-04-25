@@ -1,0 +1,3 @@
+access_key_id           = "Fourni par AWS"
+access_key_secret       = "Fourni par AWS"
+region                  = "Domiciliation géographique du déploiement, à choisir sur AWS"
