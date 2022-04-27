@@ -212,9 +212,9 @@ resource "null_resource" "bringup_trigger" {
             "cd Trigger-project/",
             "echo '- 5/6. Installer flask et dépendances.'",
             "pip install -r requirements.txt",
-            # "echo '- 6/6. Installer Gunicorn et lancer le projet'",
-            # "sudo apt-get install gunicorn",
-            # "gunicorn -w 4 -b 0.0.0.0:5000 your_project:app"
+            "echo '- 6/6. Installer Gunicorn et lancer le projet'",
+            "sudo apt-get install gunicorn -y",
+            "gunicorn -D -w 4 -b 0.0.0.0:5000 app:app"
             #
             # "echo '- 6/6. Lancer le projet sous flask.'",
             # "~/.local/bin/flask run --host=0.0.0.0",
