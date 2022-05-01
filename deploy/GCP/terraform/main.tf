@@ -36,11 +36,10 @@ resource "google_compute_network" "vpc_trigger" {
 }
 
 # Création d'une IP publique
-resource "azurerm_public_ip" "public_ip_trigger" {
-    name = "trigger_public_ip"
-    resource_group_name = azurerm_resource_group.infra_trigger.name
-    location = azurerm_resource_group.infra_trigger.location
-    allocation_method = "Static"
+resource "google_compute_address" "public_ip_trigger" {
+    name = "trigger-public-ip"
+    address_type = "EXTERNAL"
+    network_tier = "PREMIUM"
 }
 
 # Création d'une règle de pare-feu
