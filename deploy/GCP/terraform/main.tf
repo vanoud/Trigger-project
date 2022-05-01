@@ -1,6 +1,6 @@
 # Déploiement du projet TRIGGER sous GCP avec Terraform
 
-# Appel de azurerm et null
+# Appel des providers Google Cloud et null
 terraform {
     required_providers {
         google = {
@@ -18,35 +18,20 @@ terraform {
     }
 }
 
-# Configuration de null
+# Configuration du provider null
 provider "null" {}
 
-# Configuration de google
+# Configuration du provider Google Cloud
 provider "google" {
     project = var.project_id
-    region = var.region
-    zone = var.zone
+    region = var.project_region
+    zone = var.project_zone
 }
 
 # Création de la VPC
-resource "azurerm_resource_group" "infra_trigger" {
-    name = "trigger_infra"
-    region = var.region
+resource "google_compute_network" "vpc_trigger" {
+  name = "trigger-vpc"
+  auto_create_subnetworks = "true"
+  routing_mode = "GLOBAL"
 }
-
-# Création d'une IP publique
-resource "azurerm_public_ip" "public_ip_trigger" {
-    name = "trigger_public_ip"
-    resource_group_name = azurerm_resource_group.infra_trigger.name
-    location = azurerm_resource_group.infra_trigger.location
-    allocation_method = "Static"
-}
-
-# Création d'une règle de pare-feu
-
-# Création d'un modèle d'instance
-
-# Création d'un groupe d'instances
-
-# Création d'un Load Balancer
 
