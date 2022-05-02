@@ -47,7 +47,7 @@ resource "google_compute_firewall" "fw_trigger" {
     name = "trigger-fw"
     network = google_compute_network.vpc_trigger.name
     direction = "INGRESS"
-    # target_tags = ["trigger-vm"]
+    target_tags = ["trigger-vm"]
     source_ranges = ["0.0.0.0/0"]
 
     allow {
@@ -55,7 +55,7 @@ resource "google_compute_firewall" "fw_trigger" {
     }
     allow {
       protocol = "tcp"
-      ports = ["3000"]
+      ports = ["22","5000"]
     }
 }
 
@@ -66,24 +66,29 @@ resource "google_compute_instance_template" "instance_template_trigger" {
     description = "Modèle de machine Virtuel pour le chat Trigger"
     tags = [ "trigger-vm" ]
     machine_type = var.vm_type
+
     disk {
       auto_delete = true
       disk_type = "pd-balanced"
       disk_size_gb = 10
       source_image = "ubuntu-2004-lts"
     }
+
     network_interface {
       network = google_compute_network.vpc_trigger.name
       access_config {
         network_tier = "PREMIUM"
       }
     }
+
     scheduling {
         automatic_restart   = true
         on_host_maintenance = "MIGRATE"
         # provisioning_model = "STANDARD"
     }
-    # metadata_startup_script = "sudo apt-get update && sudo apt-get upgrade -y \ncurl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \necho 'deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable' | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null \nsudo apt update && sudo apt install docker-ce docker-ce-cli containerd.io -y && sudo apt-get autoremove -y \nsudo mkdir -p /usr/local/lib/docker/cli-plugins \nsudo curl -SL https://github.com/docker/compose/releases/download/v2.4.1/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose\nsudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose \ngit clone https://github.com/ageru/exo-gcp.git \ncd exo-gcp/ \nsudo docker compose up -d"
+
+    metadata_startup_script = "sudo apt-get update && sudo apt-get upgrade -y \ncurl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \necho 'deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable' | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null \nsudo apt update && sudo apt install docker-ce docker-ce-cli containerd.io -y && sudo apt-get autoremove -y \nsudo mkdir -p /usr/local/lib/docker/cli-plugins \nsudo curl -SL https://github.com/docker/compose/releases/download/v2.4.1/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose\nsudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose \ngit clone https://github.com/ageru/exo-gcp.git \ncd exo-gcp/ \nsudo docker compose up -d"
+
 }
 
 # Création d'un groupe d'instances
