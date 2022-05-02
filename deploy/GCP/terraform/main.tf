@@ -88,14 +88,14 @@ resource "google_compute_instance_template" "instance_template_trigger" {
     }
 
     metadata_startup_script = <<-EOS
-            cd ~ \n
-            sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install git -y \n
-            git clone https://github.com/vanoud/Trigger-project.git \n
-            sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install python3-pip -y \n
-            cd Trigger-project/ \n
-            pip install -r requirements.txt \n
-            sudo apt-get install gunicorn -y \n
-            gunicorn -D -w 4 -b 0.0.0.0:5000 app:app \n
+            cd ~
+            sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install git -y
+            git clone https://github.com/vanoud/Trigger-project.git
+            sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install python3-pip -y
+            cd Trigger-project/
+            pip install -r requirements.txt
+            sudo apt-get install gunicorn -y
+            gunicorn -D -w 4 -b 0.0.0.0:5000 app:app
             EOS
 }
 
@@ -104,3 +104,4 @@ resource "google_compute_instance_template" "instance_template_trigger" {
 
 # Création d'un Load Balancer
 #network services
+# https://cloud.google.com/load-balancing/docs/https/ext-http-lb-tf-module-examples
