@@ -30,12 +30,12 @@ provider "google" {
 
 # Création de la VPC
 resource "google_compute_network" "vpc_trigger" {
-  name = "trigger-vpc"
-  auto_create_subnetworks = "true"
-  routing_mode = "REGIONAL"
+    name = "trigger-vpc"
+    auto_create_subnetworks = "true"
+    routing_mode = "REGIONAL"
 }
 
-# Création d'une IP publique
+# # Création d'une IP publique
 resource "google_compute_address" "public_ip_trigger" {
     name = "trigger-public-ip"
     address_type = "EXTERNAL"
@@ -43,6 +43,21 @@ resource "google_compute_address" "public_ip_trigger" {
 }
 
 # Création d'une règle de pare-feu
+resource "google_compute_firewall" "fw_trigger" {
+    name = "trigger-fw"
+    network = google_compute_network.vpc_trigger.name
+    direction = "INGRESS"
+    # target_tags = ["trigger_asset"]
+    source_ranges = ["0.0.0.0/0"]
+
+    allow {
+      protocol = "icmp"
+    }
+    allow {
+      protocol = "tcp"
+      ports = ["3000"]
+    }
+}
 
 # Création d'un modèle d'instance
 # resource "google_compute_instance_template" "instance_template_trigger" {
@@ -56,7 +71,7 @@ resource "google_compute_address" "public_ip_trigger" {
 #       source_image = "projects/ubuntu-os-cloud/global/images/ubuntu-2004-focal"
 #     }
 #     network_interface {
-#       network = vpc
+#       network = google_compute_network.vpc_trigger.name
 #       access_config {
 #         network_tier = "PREMIUM"
 #       }
@@ -65,10 +80,11 @@ resource "google_compute_address" "public_ip_trigger" {
 #         automatic_restart   = true
 #         on_host_maintenance = "MIGRATE"
 #     }
-#     metadata_startup_script = "sudo apt-get update && sudo apt-get upgrade -y \ncurl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \necho 'deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable' | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null \nsudo apt update && sudo apt install docker-ce docker-ce-cli containerd.io -y && sudo apt-get autoremove -y \nsudo mkdir -p /usr/local/lib/docker/cli-plugins \nsudo curl -SL https://github.com/docker/compose/releases/download/v2.4.1/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose\nsudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose \ngit clone https://github.com/ageru/exo-gcp.git \ncd exo-gcp/ \nsudo docker compose up -d"
+    # metadata_startup_script = "sudo apt-get update && sudo apt-get upgrade -y \ncurl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \necho 'deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable' | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null \nsudo apt update && sudo apt install docker-ce docker-ce-cli containerd.io -y && sudo apt-get autoremove -y \nsudo mkdir -p /usr/local/lib/docker/cli-plugins \nsudo curl -SL https://github.com/docker/compose/releases/download/v2.4.1/docker-compose-linux-x86_64 -o /usr/local/lib/docker/cli-plugins/docker-compose\nsudo chmod +x /usr/local/lib/docker/cli-plugins/docker-compose \ngit clone https://github.com/ageru/exo-gcp.git \ncd exo-gcp/ \nsudo docker compose up -d"
 # }
 
 # Création d'un groupe d'instances
+# compute & autoscaling
 
 # Création d'un Load Balancer
-
+#network services
