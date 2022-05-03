@@ -1,5 +1,7 @@
 # Déploiement du projet TRIGGER sous GCP avec Terraform
 
+# Le fichier doit être sauvé avec les fins de ligne LF (Linux), pour que le script de démarrage des VM ne contienne pas de caractères problématiques.
+
 # Appel des providers Google Cloud et null
 terraform {
     required_providers {
@@ -35,7 +37,7 @@ resource "google_compute_network" "vpc_trigger" {
     routing_mode = "REGIONAL"
 }
 
-# # Création d'une IP publique
+# # # Création d'une IP publique
 resource "google_compute_address" "public_ip_trigger" {
     name = "trigger-public-ip"
     address_type = "EXTERNAL"
@@ -84,23 +86,26 @@ resource "google_compute_instance_template" "instance_template_trigger" {
     scheduling {
         automatic_restart   = true
         on_host_maintenance = "MIGRATE"
+        # 20220503: Par défaut, non activé car encore en beta.
         # provisioning_model = "STANDARD"
     }
-
+    # Le log du script peut être consulté sur la VM avec la commande suivante : sudo journalctl -u google-startup-scripts.service
     metadata_startup_script = <<-EOS
-            cd ~
-            sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install git -y
-            git clone https://github.com/vanoud/Trigger-project.git
-            sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install python3-pip -y
-            cd Trigger-project/
-            pip install -r requirements.txt
-            sudo apt-get install gunicorn -y
-            gunicorn -D -w 4 -b 0.0.0.0:5000 app:app
-            EOS
+        sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install python3-pip gunicorn -y && sudo apt-get autoremove -y
+        cd ~
+        git clone https://github.com/vanoud/Trigger-project.git
+        cd Trigger-project/
+        pip install -r requirements.txt
+        gunicorn -D -w 4 -b 0.0.0.0:5000 app:app
+        EOS
 }
 
 # Création d'un groupe d'instances
 # compute & autoscaling
+# ressource "google_compute_instance_group" "instance_group_trigger" {
+#     name = "trigger_instance_group"
+#     zone = var.project_zone
+# }
 
 # Création d'un Load Balancer
 #network services
