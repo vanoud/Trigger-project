@@ -42,11 +42,12 @@ resource "google_compute_firewall" "fw_trigger" {
     source_ranges = ["0.0.0.0/0"]
 
     allow {
-      protocol = "icmp"
+        protocol = "icmp"
     }
+
     allow {
-      protocol = "tcp"
-      ports = ["22","5000"]
+        protocol = "tcp"
+        ports = ["22","5000"]
     }
 }
 
@@ -59,17 +60,17 @@ resource "google_compute_instance_template" "instance_template_trigger" {
     machine_type = var.vm_type
 
     disk {
-      auto_delete = true
-      disk_type = "pd-balanced"
-      disk_size_gb = 10
-      source_image = "ubuntu-2004-lts"
+        auto_delete = true
+        disk_type = "pd-balanced"
+        disk_size_gb = 10
+        source_image = "ubuntu-2004-lts"
     }
 
     network_interface {
-      network = google_compute_network.vpc_trigger.name
-      access_config {
-        network_tier = "PREMIUM"
-      }
+        network = google_compute_network.vpc_trigger.name
+        access_config {
+            network_tier = "PREMIUM"
+        }
     }
 
     scheduling {
@@ -78,6 +79,7 @@ resource "google_compute_instance_template" "instance_template_trigger" {
         # 20220503: Par défaut, non activé car encore en beta.
         # provisioning_model = "STANDARD"
     }
+
     # Le log du script peut être consulté sur la VM avec la commande suivante : sudo journalctl -u google-startup-scripts.service
     metadata_startup_script = <<-EOS
         #!/bin/bash
