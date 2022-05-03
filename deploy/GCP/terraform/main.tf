@@ -37,7 +37,7 @@ resource "google_compute_network" "vpc_trigger" {
     routing_mode = "REGIONAL"
 }
 
-# # # Création d'une IP publique
+# Création d'une IP publique
 resource "google_compute_address" "public_ip_trigger" {
     name = "trigger-public-ip"
     address_type = "EXTERNAL"
@@ -91,7 +91,8 @@ resource "google_compute_instance_template" "instance_template_trigger" {
     }
     # Le log du script peut être consulté sur la VM avec la commande suivante : sudo journalctl -u google-startup-scripts.service
     metadata_startup_script = <<-EOS
-        sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get install python3-pip gunicorn -y && sudo apt-get autoremove -y
+        #!/bin/bash
+        apt-get update && apt-get upgrade -y && apt-get install python3-pip gunicorn -y && apt-get autoremove -y
         cd ~
         git clone https://github.com/vanoud/Trigger-project.git
         cd Trigger-project/
