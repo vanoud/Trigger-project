@@ -102,7 +102,7 @@ resource "google_compute_autoscaler" "autoscaler_trigger" {
     autoscaling_policy {
         min_replicas = 1
         max_replicas = 3
-        cooldown_period = 300
+        cooldown_period = 480
 
         cpu_utilization {
             target = 0.9
@@ -111,10 +111,9 @@ resource "google_compute_autoscaler" "autoscaler_trigger" {
     }
 }
 
-# Pool cible pour l'autoscaler
+# Pool cible pour le groupe d'instance
 resource "google_compute_target_pool" "target_pool_trigger" {
   name = "trigger-target-pool"
-  
 }
 
 # Création d'une sonde de santé pour le groupe d'instances
