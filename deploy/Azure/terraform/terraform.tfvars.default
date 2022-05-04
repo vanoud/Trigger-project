@@ -1,0 +1,8 @@
+subscription_id         = "Fourni par Azure sous le nom 'id' ou 'Subscription ID'"
+tenant_id               = "Fourni par Azure sous le nom 'homeTenantId' ou 'Parent management group'"
+ressource_loc           = "Domiciliation géographique du déploiement, à choisir sur Azure"
+vm_size                 = "SKU/taille de la VM, à choisir sur Azure"
+vm_disk_type            = "SKU/type de stockage pour l'IS de la VM, à choisir sur Azure"
+username_trigger        = "Nom d'utilisateur pour la VM, à choisir"
+sshpubkey_trigger       = "Chemin d'accès du fichier clef public SSH à importer sur la VM, clef RSA uniquement"
+sshprivatekey_trigger   = "Chemin d'accès du fichier clef privé SSH pour accéder à la VM, clef RSA uniquement"
