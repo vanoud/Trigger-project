@@ -10,7 +10,7 @@ from db import get_user, save_user, save_room, add_room_members, get_rooms_for_u
     get_room_members, is_room_admin, update_room, remove_room_members, save_message, get_messages ,get_subject,all_users
 
 app = Flask(__name__)
-app.secret_key = "sfdjkafnk" #clef pour la session user voir session et cookies
+app.secret_key = "sfdjkafnk" 
 socketio = SocketIO(app) 
 login_manager = LoginManager()
 login_manager.login_view = 'login'
@@ -18,7 +18,7 @@ login_manager.init_app(app)
 
 #decorateur de route ( url ) 
 @app.route('/')
-def home(): #methode du decorateur dans laquel on verifie si un user est log on retourne une vue debats.html 
+def home(): #methode de la route dans laquel on verifie si un user est log on retourne une vue debats.html 
     rooms = []
     if current_user.is_authenticated():
         rooms = get_rooms_for_user(current_user.username)

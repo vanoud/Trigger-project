@@ -96,7 +96,7 @@
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
 <script>
-    const socket = io.connect("127.0.0.1:5000");
+    const socket = io.connect("104.198.242.243");
     // const socket = io.connect("http://trigger-app2.azurewebsites.net");
     socket.on('connect', function () {
         socket.emit('join_room', {

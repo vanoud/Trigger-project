@@ -1,5 +1,4 @@
 from datetime import datetime
-import re
 
 from bson import ObjectId #module pour le format de base mongodb
 from pymongo import MongoClient, DESCENDING #import du client de connexion mongo pymongo pour gérer les requetes
@@ -7,6 +6,12 @@ from werkzeug.security import generate_password_hash  #module de haschage pour l
 
 from user import User # import du modele user on va instancié via les fonctions ci dessous 
 
+
+
+""" Gestion de la base de données (messages , membres messages) 
+    client de connexion mongo vers le cloud mongodb ( service aws )
+    base de donnée non ORM pour des raison techniques 
+"""
 client = MongoClient("mongodb+srv://vanoud:formation59@chatapp.wbany.mongodb.net/myFirstDatabase?retryWrites=true&w=majority") #connexion à la base mongodb sur aws 
 
 chat_db = client.get_database("ChatDB") #recuperation de la base mongo

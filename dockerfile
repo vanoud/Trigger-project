@@ -10,6 +10,8 @@ RUN pip install -v https://github.com/pallets/werkzeug/archive/refs/tags/2.0.1.t
 
 RUN pip install -r requirements.txt
 
+RUN pip install boto3 
+
 CMD ["flask","run","--host=0.0.0.0"]
 
 EXPOSE 5000
