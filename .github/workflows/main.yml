@@ -1,18 +1,27 @@
-# on: push
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     strategy:
-#       matrix:
-#         python-version: [3.8]
-#     steps:
-#       - uses: actions/checkout@v2
-#       - name: Set up Python all python version
-#         uses: actions/setup-python@v2
-#         with:
-#           python-version: ${{ matrix.python-version }}
-#           architecture: x64
-#       - name: Install_dependencies
-#         run: pip install -r requirements.txt 
-#       - name: Run Test
-#         run: python -m unittest discover test_unit
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python all python version
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+          architecture: x64
+      - name: Install_dependencies
+        run: pip install -r requirements.txt 
+      - name: Run Test
+        run: python -m unittest discover test_unit
+      - uses: actions/checkout@master
+
+      - name: Merge dev -> testaction
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          from_branch: dev
+          target_branch: testaction
+          github_token: ${{ github.token }}
