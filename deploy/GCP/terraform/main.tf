@@ -141,7 +141,7 @@ resource "google_compute_instance_group_manager" "instance_group_manager_trigger
         port = 5000
     }
 
-    # Politique de résilience
+    # Sonde de santé
     # auto_healing_policies {
     #     health_check = ""
     #     initial_delay_sec = "240"
