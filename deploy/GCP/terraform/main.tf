@@ -85,12 +85,13 @@ resource "google_compute_instance_template" "instance_template_trigger" {
     # Le log du script peut être consulté sur la VM avec la commande suivante : sudo journalctl -u google-startup-scripts.service
     metadata_startup_script = <<-EOS
         #!/bin/bash
-        apt-get update && apt-get upgrade -y && apt-get install python3-pip gunicorn -y && apt-get autoremove -y
+        apt-get update && apt-get upgrade -y && apt-get install python3-pip gunicorn -y
         cd ~
         git clone https://github.com/vanoud/Trigger-project.git
         cd Trigger-project/
         pip install -r requirements.txt
         gunicorn -D -w 4 -b 0.0.0.0:5000 app:app
+        apt-get autoremove -y
         EOS
 }
 
