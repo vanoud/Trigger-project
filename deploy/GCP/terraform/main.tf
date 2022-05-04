@@ -1,6 +1,8 @@
 # Déploiement du projet TRIGGER sous GCP avec Terraform
 
 # Le fichier doit être sauvé avec les fins de ligne LF (Linux), pour que le script de démarrage des VM ne contienne pas de caractères problématiques.
+# Pour éviter que git change les formats de fin de ligne de manière intempestive :
+# https://docs.github.com/en/get-started/getting-started-with-git/configuring-git-to-handle-line-endings -> git config --global core.autocrlf false
 
 # Appel du provider Google Cloud
 terraform {
@@ -92,16 +94,64 @@ resource "google_compute_instance_template" "instance_template_trigger" {
         EOS
 }
 
-# Création d'un groupe d'instances
-# compute & autoscaling
-ressource "google_compute_instance_group_manager" "instance_group_manager_trigger" {
-    name = "trigger_instance_group_manager"
+# Autoscaling pour le groupe d'instances
+resource "google_compute_autoscaler" "autoscaler_trigger" {
+    name = "trigger-autoscaler"
+    target = google_compute_instance_group_manager.instance_group_manager_trigger.id
+
+    autoscaling_policy {
+        min_replicas = 1
+        max_replicas = 3
+        cooldown_period = 300
+
+        cpu_utilization {
+            target = 0.9
+            predictive_method = "NONE"
+        }
+    }
+}
+
+# Pool cible pour l'autoscaler
+resource "google_compute_target_pool" "target_pool_trigger" {
+  name = "trigger-target-pool"
+  
+}
+
+# Création d'une sonde de santé pour le groupe d'instances
+# resource "google_compute_health_check" "autohealing" {
+#     name =""
+# }
+
+# Création du groupe d'instances
+resource "google_compute_instance_group_manager" "instance_group_manager_trigger" {
+    name = "trigger-instance-group-manager"
     zone = var.project_zone
     base_instance_name = "trigger-vm"
+    target_pools = [google_compute_target_pool.target_pool_trigger.id]
 
+    # Appel du modèle
     version {
-        name = ""
+        name = "trigger-appserver-demo"
         instance_template = google_compute_instance_template.instance_template_trigger.id
+    }
+
+    # Ouverture du port adéquat
+    named_port {
+        name = "trigger-app-5000"
+        port = 5000
+    }
+
+    # Politique de résilience
+    # auto_healing_policies {
+    #     health_check = ""
+    #     initial_delay_sec = "240"
+    # }
+
+    # Politique de màj de configuration
+    update_policy {
+        type = "PROACTIVE"
+        minimal_action = "REPLACE"
+        max_surge_fixed = 2
     }
 }
 
