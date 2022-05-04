@@ -15,7 +15,7 @@ jobs:
       - name: publish to git hub package
         uses: docker/build-push-action@v2
         with:
-          username: ${{ github.actor }}
+          username: vanoud
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: docker.pkg.github.com
           repository: ${{ github.repository}}/triggerapp
