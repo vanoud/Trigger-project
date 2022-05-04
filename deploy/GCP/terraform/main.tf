@@ -2,7 +2,7 @@
 
 # Le fichier doit être sauvé avec les fins de ligne LF (Linux), pour que le script de démarrage des VM ne contienne pas de caractères problématiques.
 
-# Appel des providers Google Cloud et null
+# Appel du provider Google Cloud
 terraform {
     required_providers {
         google = {
@@ -94,10 +94,16 @@ resource "google_compute_instance_template" "instance_template_trigger" {
 
 # Création d'un groupe d'instances
 # compute & autoscaling
-# ressource "google_compute_instance_group" "instance_group_trigger" {
-#     name = "trigger_instance_group"
-#     zone = var.project_zone
-# }
+ressource "google_compute_instance_group_manager" "instance_group_manager_trigger" {
+    name = "trigger_instance_group_manager"
+    zone = var.project_zone
+    base_instance_name = "trigger-vm"
+
+    version {
+        name = ""
+        instance_template = google_compute_instance_template.instance_template_trigger.id
+    }
+}
 
 # Création d'un Load Balancer
 #network services
