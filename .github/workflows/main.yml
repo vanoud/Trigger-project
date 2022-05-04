@@ -20,20 +20,20 @@ jobs:
         run: pip install -r requirements.txt 
       - name: Run Test
         run: python -m unittest discover test_unit
-
+      
       - uses: actions/checkout@master
       - name: Merge dev -> test
         uses: devmasx/merge-branch@master
         with:
           type: now
-          from_branch: development
-          target_branch: staging
+          from_branch: dev
+          target_branch: testaction
           github_token: ${{ github.token }}
 
       - name: Merge staging -> uat
         uses: devmasx/merge-branch@master
         with:
           type: now
-          from_branch: staging
-          target_branch: uat
+          from_branch: dev
+          target_branch: testaction
           github_token: ${{ github.token }}
