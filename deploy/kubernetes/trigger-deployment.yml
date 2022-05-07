@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  trigger
+  labels:
+    app:  trigger
+    side: front
+spec:
+  selector:
+    matchLabels:
+      app: trigger
+      side: front
+  template:
+    metadata:
+      labels:
+        app:  trigger
+        side: front
+    spec:
+      containers:
+      - name:  trigger
+        image:  triggerprojet/trigger-projet:v1.0
+        resources:
+          limits:
+            cpu: "1"
+            memory: "4Gi"
+          requests:
+            memory: "2Gi"
+            cpu: "1"
+        ports:
+        - containerPort:  5000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: trigger
+  labels:
+    side: front
+    app: trigger
+spec:
+  selector:
+    app: trigger
+    side: front
+  ports:
+  - port: 6500
+    targetPort: 5000
+  type: LoadBalancer
