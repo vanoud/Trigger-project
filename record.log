@@ -1,0 +1,12 @@
+2022-05-05 14:56:30,412 INFO werkzeug MainThread :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2022-05-05 14:56:53,808 INFO werkzeug Thread-1 : 127.0.0.1 - - [05/May/2022 14:56:53] "[37mGET /login HTTP/1.1[0m" 200 -
+2022-05-05 14:56:57,431 INFO werkzeug Thread-2 : 127.0.0.1 - - [05/May/2022 14:56:57] "[32mPOST /login HTTP/1.1[0m" 302 -
+2022-05-05 14:56:57,766 INFO werkzeug Thread-3 : 127.0.0.1 - - [05/May/2022 14:56:57] "[37mGET /debats HTTP/1.1[0m" 200 -
+2022-05-05 14:57:05,318 INFO werkzeug Thread-4 : 127.0.0.1 - - [05/May/2022 14:57:05] "[32mGET /create-room HTTP/1.1[0m" 308 -
+2022-05-05 14:57:05,489 INFO werkzeug Thread-5 : 127.0.0.1 - - [05/May/2022 14:57:05] "[37mGET /create-room/ HTTP/1.1[0m" 200 -
+2022-05-07 18:47:33,749 INFO werkzeug MainThread :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2022-05-07 18:47:39,232 INFO werkzeug Thread-1 : 127.0.0.1 - - [07/May/2022 18:47:39] "[37mGET / HTTP/1.1[0m" 200 -
+2022-05-07 18:47:39,281 INFO werkzeug Thread-2 : 127.0.0.1 - - [07/May/2022 18:47:39] "[36mGET /static/style/signin.css HTTP/1.1[0m" 304 -
+2022-05-07 18:47:39,285 INFO werkzeug Thread-3 : 127.0.0.1 - - [07/May/2022 18:47:39] "[36mGET /static/style/headers.css HTTP/1.1[0m" 304 -
+2022-05-07 18:47:39,290 INFO werkzeug Thread-4 : 127.0.0.1 - - [07/May/2022 18:47:39] "[36mGET /static/style/starter-template.css HTTP/1.1[0m" 304 -
+2022-05-07 18:47:39,472 INFO werkzeug Thread-5 : 127.0.0.1 - - [07/May/2022 18:47:39] "[36mGET /static/img/main.svg HTTP/1.1[0m" 304 -

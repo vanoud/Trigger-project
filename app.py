@@ -1,5 +1,6 @@
 from datetime import datetime #import module date time pour daté les messages 
 import unittest
+import logging
 # from bson.json_util import dumps
 from flask import Flask, render_template, request, redirect, url_for #import flask gestionaire de vue et de requete et de redirection
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user # module d'auth 
@@ -17,10 +18,19 @@ login_manager.login_view = 'login'
 login_manager.init_app(app)
 
 #decorateur de route ( url ) 
+
+logging.basicConfig(filename='record.log', level=logging.DEBUG, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
+
+
 @app.route('/')
+def index():
+    redirect(url_for('login'))
+    return render_template('login.html')
+
+@app.route('/debats')
 def home(): #methode de la route dans laquel on verifie si un user est log on retourne une vue debats.html 
     rooms = []
-    if current_user.is_authenticated():
+    if current_user.is_authenticated() : 
         rooms = get_rooms_for_user(current_user.username)
     return render_template("debats.html", rooms=rooms)
 
@@ -99,7 +109,7 @@ def signup():
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('home'))
+    return redirect(url_for('login'))
 
 #route pour la creation de rooms 
 @app.route('/create-room/', methods=['GET', 'POST'])
@@ -232,3 +242,4 @@ def load_user(username):
 if __name__ == '__main__':
     socketio.run(app, debug=True,host="0.0.0.0",port=80)
     unittest.main()
+
