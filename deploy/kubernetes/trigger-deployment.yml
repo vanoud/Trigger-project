@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name:  triggerz
+  name:  trigger
   labels:
-    app:  triggerz
+    app:  trigger
     side: front
 spec:
   selector:
     matchLabels:
-      app: triggerz
+      app: trigger
       side: front
   template:
     metadata:
       labels:
-        app:  triggerz
+        app:  trigger
         side: front
     spec:
       containers:
-      - name:  triggerz
-        image:  mribeiro1/triggerz:v1.2
+      - name:  trigger
+        image:  triggerprojet/trigger-projet
         resources:
           limits:
             cpu: "1"
@@ -34,13 +34,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: triggerz
+  name: trigger
   labels:
     side: front
     app: trigger
 spec:
   selector:
-    app: triggerz
+    app: trigger
     side: front
   ports:
   - port: 6500
