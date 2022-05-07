@@ -13,6 +13,10 @@ class User:
     def is_authenticated():
         return True
 
+    # @staticmethod
+    # def is_not_authenticated():
+    #     return False
+
     @staticmethod
     def is_active():
         return True

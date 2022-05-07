@@ -101,41 +101,17 @@
 
 
             <div class="col-md-6">
-                <h2>Channel de débats</h2>
+                <h2>Channel de débats :</h2>
 
                 <br>
 
 
-                {% if current_user.is_authenticated %}
-
-                    {% for room in rooms %}
-                    
-                    <!-- <ul class="icon-list">
-                        <li><a href="/rooms/{{ room._id.room_id }}">{{ room.room_name }}</a></li>
-                        <br>
-                        <h1>{{ room.subject }}</h1> -->
-                        {% if room.subject == 'politique' %}
-                        <ul class="icon-list">
-                            <li><a href="/rooms/{{ room._id.room_id }}">{{ room.room_name }}</a></li>
-                            <br>
-                        {% endif %} 
-             
-                        
-
-
-                    {% endfor %}
-                    </ul>
-
-
-                {% endif %}
+            
 
             </div>
         </div>
         <br>
-        <br>
-        <br>
-        <br>
-        <br>
+
         <div class="list-group">
             {% if current_user.is_authenticated %}
 
