@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  triggerz
+  labels:
+    app:  triggerz
+    side: front
+spec:
+  selector:
+    matchLabels:
+      app: triggerz
+      side: front
+  template:
+    metadata:
+      labels:
+        app:  triggerz
+        side: front
+    spec:
+      containers:
+      - name:  triggerz
+        image:  mribeiro1/triggerz:v1.2
+        resources:
+          limits:
+            cpu: "1"
+            memory: "4Gi"
+          requests:
+            memory: "2Gi"
+            cpu: "1"
+        ports:
+        - containerPort:  5000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: triggerz
+  labels:
+    side: front
+    app: trigger
+spec:
+  selector:
+    app: triggerz
+    side: front
+  ports:
+  - port: 6500
+    targetPort: 5000
+  type: LoadBalancer
