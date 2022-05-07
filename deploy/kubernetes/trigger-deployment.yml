@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name:  trigger
-        image:  triggerprojet/trigger-projet
+        image:  triggerprojet/trigger-projet:v1.0
         resources:
           limits:
             cpu: "1"
