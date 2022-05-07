@@ -10,3 +10,10 @@
 2022-05-07 18:47:39,285 INFO werkzeug Thread-3 : 127.0.0.1 - - [07/May/2022 18:47:39] "[36mGET /static/style/headers.css HTTP/1.1[0m" 304 -
 2022-05-07 18:47:39,290 INFO werkzeug Thread-4 : 127.0.0.1 - - [07/May/2022 18:47:39] "[36mGET /static/style/starter-template.css HTTP/1.1[0m" 304 -
 2022-05-07 18:47:39,472 INFO werkzeug Thread-5 : 127.0.0.1 - - [07/May/2022 18:47:39] "[36mGET /static/img/main.svg HTTP/1.1[0m" 304 -
+2022-05-07 18:59:13,001 INFO werkzeug MainThread :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2022-05-07 18:59:35,956 INFO werkzeug MainThread :  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2022-05-07 18:59:40,130 INFO werkzeug Thread-1 (process_request_thread) : 127.0.0.1 - - [07/May/2022 18:59:40] "GET / HTTP/1.1" 200 -
+2022-05-07 18:59:40,324 INFO werkzeug Thread-3 (process_request_thread) : 127.0.0.1 - - [07/May/2022 18:59:40] "GET /static/style/headers.css HTTP/1.1" 200 -
+2022-05-07 18:59:40,325 INFO werkzeug Thread-2 (process_request_thread) : 127.0.0.1 - - [07/May/2022 18:59:40] "GET /static/style/signin.css HTTP/1.1" 200 -
+2022-05-07 18:59:40,325 INFO werkzeug Thread-4 (process_request_thread) : 127.0.0.1 - - [07/May/2022 18:59:40] "GET /static/style/starter-template.css HTTP/1.1" 200 -
+2022-05-07 18:59:40,394 INFO werkzeug Thread-5 (process_request_thread) : 127.0.0.1 - - [07/May/2022 18:59:40] "GET /static/img/main.svg HTTP/1.1" 200 -
