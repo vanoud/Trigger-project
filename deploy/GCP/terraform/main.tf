@@ -9,7 +9,7 @@ terraform {
     required_providers {
         google = {
             source = "hashicorp/google"
-            version = "~>4.19.0"
+            version = "~>4.19.0, < 5.0"
         }
     }
 }
@@ -24,15 +24,15 @@ provider "google" {
 # Création de la VPC
 resource "google_compute_network" "vpc_trigger" {
     name = "trigger-vpc"
-    auto_create_subnetworks = "true"
+    # auto_create_subnetworks = "true"
+    auto_create_subnetworks = "false" # Pour lb
     routing_mode = "REGIONAL"
 }
 
 # Création d'une IP publique
-resource "google_compute_address" "public_ip_trigger" {
+resource "google_compute_global_address" "public_ip_trigger" {
     name = "trigger-public-ip"
     address_type = "EXTERNAL"
-    network_tier = "PREMIUM"
 }
 
 # Création d'une règle de pare-feu
@@ -42,6 +42,8 @@ resource "google_compute_firewall" "fw_trigger" {
     direction = "INGRESS"
     target_tags = ["trigger-vm"]
     source_ranges = ["0.0.0.0/0"]
+    # For health check only:
+    #source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
 
     allow {
         protocol = "icmp"
@@ -49,7 +51,7 @@ resource "google_compute_firewall" "fw_trigger" {
 
     allow {
         protocol = "tcp"
-        ports = ["22","5000"]
+        ports = ["22","80"]
     }
 }
 
@@ -69,7 +71,8 @@ resource "google_compute_instance_template" "instance_template_trigger" {
     }
 
     network_interface {
-        network = google_compute_network.vpc_trigger.name
+        #network = google_compute_network.vpc_trigger.name
+        subnetwork = google_compute_subnetwork.backend_subnet_trigger.name #
         access_config {
             network_tier = "PREMIUM"
         }
@@ -90,7 +93,7 @@ resource "google_compute_instance_template" "instance_template_trigger" {
         git clone https://github.com/vanoud/Trigger-project.git
         cd Trigger-project/
         pip install -r requirements.txt
-        gunicorn -D -w 4 -b 0.0.0.0:5000 app:app
+        gunicorn -D -w 4 -b 0.0.0.0:80 app:app
         apt-get autoremove -y
         EOS
 }
@@ -112,10 +115,10 @@ resource "google_compute_autoscaler" "autoscaler_trigger" {
     }
 }
 
-# Pool cible pour le groupe d'instance
-resource "google_compute_target_pool" "target_pool_trigger" {
-  name = "trigger-target-pool"
-}
+# # Pool cible pour le groupe d'instance
+# resource "google_compute_target_pool" "target_pool_trigger" {
+#   name = "trigger-target-pool"
+# }
 
 # Création d'une sonde de santé pour le groupe d'instances
 # resource "google_compute_health_check" "autohealing" {
@@ -127,7 +130,7 @@ resource "google_compute_instance_group_manager" "instance_group_manager_trigger
     name = "trigger-instance-group-manager"
     zone = var.project_zone
     base_instance_name = "trigger-vm"
-    target_pools = [google_compute_target_pool.target_pool_trigger.id]
+    #target_pools = [google_compute_target_pool.target_pool_trigger.id]
 
     # Appel du modèle
     version {
@@ -137,8 +140,8 @@ resource "google_compute_instance_group_manager" "instance_group_manager_trigger
 
     # Ouverture du port adéquat
     named_port {
-        name = "trigger-app-5000"
-        port = 5000
+        name = "trigger-app-80"
+        port = 80
     }
 
     # Sonde de santé
@@ -155,6 +158,181 @@ resource "google_compute_instance_group_manager" "instance_group_manager_trigger
     }
 }
 
-# Création d'un Load Balancer
-#network services
+
+# Création d'un load balancer à la main
+# # VPC
+# resource "google_compute_network" "default" {
+#   name                    = "l7-xlb-network"
+#   provider                = google-beta
+#   auto_create_subnetworks = false
+# }
+
+# backend subnet
+resource "google_compute_subnetwork" "backend_subnet_trigger" {
+  name          = "trigger-backend-subnet"
+  ip_cidr_range = "10.0.1.0/24"
+  region        = var.project_region
+  network       = google_compute_network.vpc_trigger.id
+}
+
+# # reserved IP address
+# resource "google_compute_global_address" "default" {
+#   provider = google-beta
+#   name = "l7-xlb-static-ip"
+# }
+
+# forwarding rule
+resource "google_compute_global_forwarding_rule" "forwarding_rule_trigger" {
+  name                  = "trigger-forwarding-rule"
+  ip_protocol           = "TCP"
+  load_balancing_scheme = "EXTERNAL"
+  port_range            = "80"
+  target                = google_compute_target_http_proxy.http_proxy_trigger.id
+  ip_address            = google_compute_global_address.public_ip_trigger.id
+}
+
+# http proxy
+resource "google_compute_target_http_proxy" "http_proxy_trigger" {
+  name     = "trigger-http-proxy"
+  url_map  = google_compute_url_map.url_map_trigger.id
+}
+
+# url map
+resource "google_compute_url_map" "url_map_trigger" {
+  name            = "trigger-url-map"
+  default_service = google_compute_backend_service.backend_service_trigger.id
+}
+
+# backend service with custom request and response headers
+resource "google_compute_backend_service" "backend_service_trigger" {
+  name                     = "trigger-backend-service"
+  protocol                 = "HTTP"
+  port_name                = "trigger-app-80"
+  load_balancing_scheme    = "EXTERNAL"
+  timeout_sec              = 20
+  health_checks            = [google_compute_health_check.hc_backserv_trigger.id]
+
+  backend {
+    group           = google_compute_instance_group_manager.instance_group_manager_trigger.instance_group
+    balancing_mode  = "UTILIZATION"
+    capacity_scaler = 1.0
+  }
+}
+
+# # instance template
+# resource "google_compute_instance_template" "default" {
+#   name         = "l7-xlb-mig-template"
+#   provider     = google-beta
+#   machine_type = "e2-small"
+#   tags         = ["allow-health-check"]
+
+#   network_interface {
+#     network    = google_compute_network.default.id
+#     subnetwork = google_compute_subnetwork.default.id
+#     access_config {
+#       # add external ip to fetch packages
+#     }
+#   }
+#   disk {
+#     source_image = "debian-cloud/debian-10"
+#     auto_delete  = true
+#     boot         = true
+#   }
+
+#   # install nginx and serve a simple web page
+#   metadata = {
+#     startup-script = <<-EOF1
+#       #! /bin/bash
+#       set -euo pipefail
+
+#       export DEBIAN_FRONTEND=noninteractive
+#       apt-get update
+#       apt-get install -y nginx-light jq
+
+#       NAME=$(curl -H "Metadata-Flavor: Google" "http://metadata.google.internal/computeMetadata/v1/instance/hostname")
+#       IP=$(curl -H "Metadata-Flavor: Google" "http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/ip")
+#       METADATA=$(curl -f -H "Metadata-Flavor: Google" "http://metadata.google.internal/computeMetadata/v1/instance/attributes/?recursive=True" | jq 'del(.["startup-script"])')
+
+#       cat <<EOF > /var/www/html/index.html
+#       <pre>
+#       Name: $NAME
+#       IP: $IP
+#       Metadata: $METADATA
+#       </pre>
+#       EOF
+#     EOF1
+#   }
+#   lifecycle {
+#     create_before_destroy = true
+#   }
+# }
+
+# health check
+resource "google_compute_health_check" "hc_backserv_trigger" {
+  name     = "trigger-hc-backserv"
+  check_interval_sec = 30
+  healthy_threshold = 2
+  unhealthy_threshold = 1
+  timeout_sec = 10
+
+  http_health_check {
+    port_name = "trigger-app-80"
+  }
+}
+
+# # MIG
+# resource "google_compute_instance_group_manager" "default" {
+#   name     = "l7-xlb-mig1"
+#   provider = google-beta
+#   zone     = "us-central1-c"
+#   named_port {
+#     name = "http"
+#     port = 8080
+#   }
+#   version {
+#     instance_template = google_compute_instance_template.default.id
+#     name              = "primary"
+#   }
+#   base_instance_name = "vm"
+#   target_size        = 2
+# }
+
+# allow access from health check ranges
+# resource "google_compute_firewall" "default" {
+#   name          = "l7-xlb-fw-allow-hc"
+#   provider = google-beta
+#   direction     = "INGRESS"
+#   network       = google_compute_network.default.id
+#   source_ranges = ["130.211.0.0/22", "35.191.0.0/16"]
+
+#   allow {
+#     protocol = "tcp"
+#   }
+#   target_tags = ["allow-health-check"]
+# }
+
+
+# ---
+
+# Création d'un Load Balancer par module
+# network services
+# https://registry.terraform.io/modules/GoogleCloudPlatform/lb-http/google/latest
 # https://cloud.google.com/load-balancing/docs/https/ext-http-lb-tf-module-examples
+# module "lb-http" {
+#   source  = "GoogleCloudPlatform/lb-http/google"
+#   version = "~>6.2.0"
+  
+#   name = "trigger-load-balancer"
+#   address = google_compute_address.public_ip_trigger.ip
+#   backends = {
+#       default = {
+#           groups = google_compute_target_pool.target_pool_trigger.id
+#       }
+#   }
+    
+  
+#   security_policy = 
+#   url_map = 
+
+#   http_forward = false
+# }
