@@ -1,4 +1,6 @@
 flask
+bson
+boto3 
 Flask-SocketIO==4.3.2
 eventlet
 pymongo
