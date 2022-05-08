@@ -1,7 +1,10 @@
 on:
-  pull_request:
-    types:
-      - opened
+  push:
+    branches:
+      - "dev"
+  # pull_request:
+  #   types:
+  #     - opened
 
 jobs:
   docker:
