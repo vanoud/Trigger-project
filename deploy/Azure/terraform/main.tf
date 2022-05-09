@@ -91,10 +91,10 @@ resource "azurerm_network_security_rule" "secrulessh_trigger" {
 
 # Création d'une règle de sécurité pour l'application (flask)
 resource "azurerm_network_security_rule" "secruleflask_trigger" {
-    name = "flask_5000"
+    name = "flask_80"
     protocol = "Tcp"
     source_port_range = "*"
-    destination_port_range = "5000"
+    destination_port_range = "80"
     source_address_prefix = "*"
     destination_address_prefixes = azurerm_virtual_network.vnet1_trigger.address_space
     access = "Allow"
@@ -214,7 +214,7 @@ resource "null_resource" "bringup_trigger" {
             "pip install -r requirements.txt",
             "echo '- 6/6. Installer Gunicorn et lancer le projet'",
             "sudo apt-get install gunicorn -y",
-            "gunicorn -D -w 4 -b 0.0.0.0:5000 app:app"
+            "gunicorn -D -w 4 -b 0.0.0.0:80 app:app"
             #
             # "echo '- 6/6. Lancer le projet sous flask.'",
             # "~/.local/bin/flask run --host=0.0.0.0",
