@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Trigger</title>
+    <title>Trigger - Débat</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -28,7 +28,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-6">
-            <div class="alert alert-info"> Bienvenu <b>{{ current_user.username }}</b>
+            <div class="alert alert-info"> Bienvenue <b>{{ current_user.username }}</b>
                  <strong id="whoami"></strong></div>
             <div class="panel panel-default">
                 <div class="panel-heading"></div>
@@ -43,7 +43,7 @@
         </div>
         <div class="col-md-6">
             <div class="panel panel-default">
-                <div class="panel-heading">Debat : {{ room.name }} </div>
+                <div class="panel-heading">Débat&nbsp;: {{ room.name }} </div>
                 <ul class="list-group" id="chat-output">
                     <div id="messages" >
                         {% for message in messages %}
@@ -56,7 +56,7 @@
                         <div class="input-group">
                             <input type="text" class="form-control" id="message_input" />
 
-                                <button type="submit" class="btn btn-default">Send Message</button>
+                                <button type="submit" class="btn btn-default">Envoi message</button>
 
                         </div>
                     </form>
@@ -65,7 +65,7 @@
             </div>
         </div>
     </div>
-    <button type="button" id="load_older_messages_btn">Load Messages</button>
+    <button type="button" id="load_older_messages_btn">Chargement messages</button>
 </div>
 
 </body>

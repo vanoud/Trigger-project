@@ -2,19 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Trigger</title>
+    <title>Trigger - Edition de channel</title>
 </head>
 <body>
-<h1>Edition de Channel</h1>
+<h1>Trigger - Edition de Channel</h1>
 <h3>{{ message }}</h3>
 <form method="post">
-    <label>Channel:</label>
+    <label>Channel&nbsp;:</label>
     <input type="text" name="room_name" value="{{ room.name }}">
     <br>
-    <label>Membres :</label>
+    <label>Membres&nbsp;:</label>
     <input type="text" name="members" value="{{ room_members_str }}">
     <br>
-    <button type="submit">Submit</button>
+    <button type="submit">Modifier</button>
 </form>
 </body>
 </html>
