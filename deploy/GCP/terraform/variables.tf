@@ -8,7 +8,7 @@ variable "project_region" {
     type = string
 }
 variable "project_zone" {
-    description = "Zone où se trouvent tous les éléments du projet, doit être contenu dans la zone."
+    description = "Zone où se trouvent tous les éléments du projet, doit être contenu dans la région choisie."
     type = string
 }
 variable "vm_type" {
