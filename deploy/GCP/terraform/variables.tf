@@ -12,6 +12,6 @@ variable "project_zone" {
     type = string
 }
 variable "vm_type" {
-    description = "Permet de définir les capacités de la VM créée."
+    description = "SKU/taille de la VM, à choisir sur GCP."
     type = string
 }
