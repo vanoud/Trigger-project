@@ -7,39 +7,15 @@ Equipe : Florent, Marco, Piero, Thomas, Wallid.
 Trigger est un projet réalisé dans le cadre de la formation Admin Production Cloud dispensée par m2i Formation & Semifir.
 
 ## Pour installer le projet
+Nous proposons différentes solutions d'installation :
+* [["Bare Metal"|Installation-"Bare Metal"]]
+* [[Docker|Installation-avec-Docker]]
+* [[Azure avec Docker|Installation-Azure-avec-Docker]]
+* [[Azure avec Terraform|Installation-Azure-avec-Terraform]]
+* [[GCP avec Terraform|Installation-GCP-avec-Terraform]]
+* Kubernetes avec GCP via GKE (Google Kubernetes Engine) (coming soon!)
+* AWS (coming soon!)
 
-* Cloner le dépôt :
-```
-git clone https://github.com/vanoud/Trigger.git
-```
 
-* Depuis le répertoire du projet, créer un environnement virtuel :
-```
-py -3 -m venv venv
-```
-
-* Activer l'environnement virtuel nouvellement créé :
-```
-venv\Scripts\activate
-```
-
-* Installer Flask et autres dépendances :
-```
-pip install -r requirements.txt
-```
-
-## Pour lancer le projet
-
-* Se placer dans le répertoire du projet
-
-* Activer l'environnement virtuel nouvellement créé :
-```
-venv\Scripts\activate
-```
-
-* Lancer flask:
-```
-flask run
-```
-
-* Depuis un navigateur, se connecter à [http://127.0.0.1:5000/](http://127.0.0.1:5000/)
+## Pour plus d'information :
+N'hésitez pas à consulter le [wiki](https://github.com/vanoud/Trigger-project/wiki/) !
