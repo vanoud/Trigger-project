@@ -105,8 +105,8 @@ resource "google_compute_autoscaler" "autoscaler_trigger" {
     target = google_compute_instance_group_manager.instance_group_manager_trigger.id
 
     autoscaling_policy {
-        min_replicas = 1
-        max_replicas = 3
+        min_replicas = var.vm_min_number
+        max_replicas = var.vm_min_number
         cooldown_period = var.vm_startup_time
 
         cpu_utilization {

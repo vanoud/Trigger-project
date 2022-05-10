@@ -22,3 +22,15 @@ variable "vm_startup_time" {
     type = number
     default = 480
 }
+
+variable "vm_min_number" {
+    description = "Nombre minimum de VM à lancer."
+    type = number
+    default = 1
+}
+
+variable "vm_max_number" {
+    description = "Nombre maximum de VM à lancer."
+    type = number
+    default = 3
+}
