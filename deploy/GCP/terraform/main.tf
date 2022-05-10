@@ -107,7 +107,7 @@ resource "google_compute_autoscaler" "autoscaler_trigger" {
     autoscaling_policy {
         min_replicas = 1
         max_replicas = 3
-        cooldown_period = 480
+        cooldown_period = var.vm_startup_time
 
         cpu_utilization {
             target = 0.9

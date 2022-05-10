@@ -14,4 +14,11 @@ variable "project_zone" {
 variable "vm_type" {
     description = "SKU/taille de la VM, à choisir sur GCP."
     type = string
+    default = "e2-micro"
+}
+
+variable "vm_startup_time" {
+    description = "Temps de démarrage d'une VM, varie selon les capacités de la VM."
+    type = number
+    default = 480
 }
