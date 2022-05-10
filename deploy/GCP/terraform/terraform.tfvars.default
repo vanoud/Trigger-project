@@ -1,0 +1,7 @@
+project_id      = "ID du projet créé depuis la console GCP"
+project_region  = "Région où se trouvent tous les éléments du projet"
+project_zone    = "Zone où se trouvent tous les éléments du projet, doit être contenu dans la région choisie"
+vm_type         = "SKU/taille de la VM, à choisir sur GCP (défaut : e2-micro, CPU 2 coeurs, 1 Go RAM)"
+vm_startup_time = "Temps de démarrage d'une VM, varie selon les capacités de la VM (défaut : 8 min)"
+vm_min_number   = "Nombre minimum de VM à lancer (défaut : 1)"
+vm_max_number   = "Nombre maximum de VM à lancer (défaut : 3)"
