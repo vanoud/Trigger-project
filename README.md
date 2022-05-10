@@ -8,11 +8,11 @@ Trigger est un projet réalisé dans le cadre de la formation Admin Production C
 
 ## Pour installer le projet
 Nous proposons différentes solutions d'installation :
-* [["Bare Metal"|Installation-"Bare Metal"]]
-* [[Docker|Installation-avec-Docker]]
-* [[Azure avec Docker|Installation-Azure-avec-Docker]]
-* [[Azure avec Terraform|Installation-Azure-avec-Terraform]]
-* [[GCP avec Terraform|Installation-GCP-avec-Terraform]]
+* ["Bare Metal"](Installation-"Bare Metal")
+* [Docker]|(wiki/Installation-avec-Docker)]
+* [Azure avec Docker](wiki/Installation-Azure-avec-Docker)
+* [Azure avec Terraform](wiki/Installation-Azure-avec-Terraform)
+* [GCP avec Terraform](wiki/Installation-GCP-avec-Terraform)
 * Kubernetes avec GCP via GKE (Google Kubernetes Engine) (coming soon!)
 * AWS (coming soon!)
 
