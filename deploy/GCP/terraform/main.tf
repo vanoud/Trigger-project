@@ -106,7 +106,7 @@ resource "google_compute_autoscaler" "autoscaler_trigger" {
 
   autoscaling_policy {
     min_replicas    = var.vm_min_number
-    max_replicas    = var.vm_min_number
+    max_replicas    = var.vm_max_number
     cooldown_period = var.vm_startup_time
 
     cpu_utilization {
