@@ -2,7 +2,7 @@
 
 Trigger est une application permettant de faciliter la rencontre de personnes souhaitant débattre des idées opposées.
 
-Equipe : Florent, Marco, Piero
+Equipe : Florent, Piero
 
 Trigger est un projet réalisé dans le cadre de la formation Admin Production Cloud dispensée par m2i Formation & Semifir.
 
