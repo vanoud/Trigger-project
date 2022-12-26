@@ -12,7 +12,7 @@ from user import User # import du modele user on va instancié via les fonctions
     client de connexion mongo vers le cloud mongodb ( service aws )
     base de donnée non ORM pour des raison techniques 
 """
-client = MongoClient("mongodb+srv://vanoud:formation59@chatapp.wbany.mongodb.net/myFirstDatabase?retryWrites=true&w=majority") #connexion à la base mongodb sur aws 
+client = MongoClient("mongodb+srv://vanoud:formation59@cluster0.i2tm3hr.mongodb.net/?retryWrites=true&w=majority") #connexion à la base mongodb sur aws 
 
 chat_db = client.get_database("ChatDB") #recuperation de la base mongo
 users_collection = chat_db.get_collection("users") #recuperation de la collection users dans la var users_collection

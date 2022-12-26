@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - 'dev'
+      - 'testaction2'
 
 jobs:
   build:
@@ -22,18 +22,18 @@ jobs:
         run: python -m unittest discover test_unit
       
       - uses: actions/checkout@master
-      - name: Merge dev -> test
+      - name: Merge testaction2 -> newmaster
         uses: devmasx/merge-branch@master
         with:
           type: now
-          from_branch: dev
-          target_branch: testaction
+          from_branch: testaction2
+          target_branch: newmaster
           github_token: ${{ github.token }}
 
       - name: Merge staging -> uat
         uses: devmasx/merge-branch@master
         with:
           type: now
-          from_branch: dev
-          target_branch: testaction
+          from_branch: testaction2
+          target_branch: newmaster
           github_token: ${{ github.token }}

@@ -20,7 +20,7 @@ login_manager.init_app(app)
 #decorateur de route ( url ) 
 
 logging.basicConfig(filename='record.log', level=logging.DEBUG, format=f'%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s')
-
+#generation de fichier de log à voir pour mettre en place un logstash et un kibana pour la visualisation des logs et remonté des erreurs courante
 
 @app.route('/')
 def index():
